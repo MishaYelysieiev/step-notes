@@ -1,7 +1,7 @@
 {
   "name": "note-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Для начала работы необходимо установить модули, все* зависимости уже прописаны в package.json поэтому можно просто ввести команду <strong>npm install</strong> и все установиться.",
   "main": "index.js",
   "scripts": {
     "start": "node server"
@@ -10,9 +10,20 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "ejs": "^2.6.2",
-    "express": "^4.17.1",
+    "jquery": "^3.4.1",
     "mongodb": "^3.2.7",
     "nodemon": "^1.19.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MishaYelysieiev/step-notes.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MishaYelysieiev/step-notes/issues"
+  },
+  "homepage": "https://github.com/MishaYelysieiev/step-notes#readme",
+  "devDependencies": {
+    "ejs": "^2.6.2",
+    "express": "^4.17.1"
   }
 }
