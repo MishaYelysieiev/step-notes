@@ -32,7 +32,7 @@ app.get('/lists/create',(req,res)=>{
     res.render('pages/lists/create');
 });
 
-app.get(`/notes/${ggg}`,(req,res)=>{
+app.get(`/notes/edit`,(req,res)=>{
     res.render('pages/notes/edit');
 });
 
