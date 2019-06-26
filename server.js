@@ -16,11 +16,23 @@ app.get('/notes/create',(req,res)=>{
     res.render('pages/notes/create');
 });
 
+app.post('/notes/create',(req,res)=>{
+    console.log(req.body);
+    db.addNote(req.body);
+    res.json(req.body.request == "true")
+});
+
+// app.post('/notes/edit',(req,res)=>{
+//     console.log(req.body);
+//     db.deleteNote(req.body);
+//     res.json(req.body.request == "true")
+// });
+
 app.get('/lists/create',(req,res)=>{
     res.render('pages/lists/create');
 });
 
-app.get('/notes/edit',(req,res)=>{
+app.get(`/notes/${ggg}`,(req,res)=>{
     res.render('pages/notes/edit');
 });
 
@@ -36,6 +48,7 @@ app.get('/',async (req,res)=>{
         lists
     });
 });
+
 
 app.listen(3000);
 
