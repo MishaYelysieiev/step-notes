@@ -21,7 +21,7 @@
                 <h5 class="card-title"><%= note.Title %></h5>
                 <p class="card-text"><%= note.Content %></p>
                 <a href="/notes/edit" class="card-link btn edit-btn btn-success">Edit</a>
-                <a href="#" class="card-link btn delete-btn btn-danger">Delete</a>
+                <button data-id="<%=note._id%>" id="delete" class="delete-case card-link btn delete-btn btn-danger">Delete</button>
             </div>
         </div>
                 <% }); %>
@@ -34,7 +34,7 @@
                     <div class="d-flex align-items-center mb-2"> <input type="checkbox"><p class="ml-3 my-0"><%=list[`${key}`]%></p></div>
                 <%}}%>
                 <a href="/lists/edit" class="card-link btn edit-btn btn-success">Edit</a>
-                <a href="#" class="card-link btn delete-btn btn-danger">Delete</a>
+                <a href="/lists/<%=list._id%>" id="delete-to-do" class="card-link btn delete-btn btn-danger">Delete</a>
             </div>
         </div>
         <% }); %>
@@ -46,6 +46,24 @@
 </div>
 
 <% include ./parts/scripts %>
+<script>
 
+$(".delete-case").on('click', function (e) {
+    console.log("works")
+    e.preventDefault();
+    let id = $(this).data("id");
+    $.ajax({
+        type: "DELETE",
+        url: `/notes/${id}`,
+        data: id,
+        success: function (response) {
+            $(`#${id}`).remove();
+        },
+        error: function (response) {
+            alert(response);
+        }
+    });
+});
+</script>
 </body>
 </html>
