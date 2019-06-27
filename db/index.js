@@ -17,18 +17,6 @@ const getNotes  = async () => {
     client.close();
     return data;
 };
-// const deleteNote = async id => {
-//     const client = new MongoClient(uri, { useNewUrlParser: true });
-//     await client.connect();
-//     const usersCollection = await client.db(db).collection("notes");
-//     // id = id.split('/');
-//     // id = id[2];
-//     // console.log(id);
-//     await usersCollection.deleteOne(id);
-//     console.log('deleted one user');
-//     client.close();
-//     // return "ddd"
-// };
 
 const deleteNote = async id => {
     const client = new MongoClient(uri, { useNewUrlParser: true });
@@ -61,8 +49,24 @@ const deleteList = async id => {
     const client = new MongoClient(uri, { useNewUrlParser: true });
     await client.connect();
     const usersCollection = await client.db(db).collection("lists");
-    await usersCollection.deleteOne(id);
-    console.log('deleted one user');
+    const data = await getLists();
+    const list = await  data.find(item=>item['_id']==id);
+    await usersCollection.deleteOne(list);
+    console.log('success');
+    client.close();
+};
+const updateCheckListItem = async (id,param)  => {
+    const client = new MongoClient(uri, { useNewUrlParser: true });
+    await client.connect();
+    const usersCollection = await client.db(db).collection("lists");
+    const data = await getLists();
+    const list = await  data.find(item=>item['_id']==id);
+    if(await param[0]==="+"){
+        await usersCollection.updateMany( list, { $rename: { [`${param}`]: `${param.split('+')[1]}` } } );
+    }else{
+        await usersCollection.updateMany( list, { $rename: { [`${param}`]: `+${param}` } } );
+    }
+    console.log(id + " " + param);
     client.close();
 };
 
@@ -72,5 +76,6 @@ module.exports = {
     getLists,
     getNotes,
     deleteList,
-    deleteNote
+    deleteNote,
+    updateCheckListItem
 };
