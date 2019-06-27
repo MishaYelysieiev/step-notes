@@ -22,12 +22,6 @@ app.post('/notes/create',(req,res)=>{
     res.json(req.body.request == "true")
 });
 
-// app.post('/notes/edit',(req,res)=>{
-//     console.log(req.body);
-//     db.deleteNote(req.body);
-//     res.json(req.body.request == "true")
-// });
-
 app.get('/lists/create',(req,res)=>{
     res.render('pages/lists/create');
 });
@@ -38,6 +32,12 @@ app.get(`/notes/edit`,(req,res)=>{
 
 app.get('/lists/edit',(req,res)=>{
     res.render('pages/lists/edit');
+});
+
+app.delete('/notes/:id', async (req,res)=>{
+    console.log(req.params.id);
+    await db.deleteNote(req.params.id);
+    res.send("id");
 });
 
 app.get('/',async (req,res)=>{

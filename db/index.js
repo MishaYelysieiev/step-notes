@@ -17,12 +17,27 @@ const getNotes  = async () => {
     client.close();
     return data;
 };
+// const deleteNote = async id => {
+//     const client = new MongoClient(uri, { useNewUrlParser: true });
+//     await client.connect();
+//     const usersCollection = await client.db(db).collection("notes");
+//     // id = id.split('/');
+//     // id = id[2];
+//     // console.log(id);
+//     await usersCollection.deleteOne(id);
+//     console.log('deleted one user');
+//     client.close();
+//     // return "ddd"
+// };
+
 const deleteNote = async id => {
     const client = new MongoClient(uri, { useNewUrlParser: true });
     await client.connect();
     const usersCollection = await client.db(db).collection("notes");
-    await usersCollection.deleteOne(id);
-    console.log('deleted one user');
+    const data = await getNotes();
+    const title = await  data.find(item=>item['_id']==id)['Title'].toString();
+    const content = await  data.find(item=>item['_id']==id)['Content'].toString();
+    await usersCollection.deleteOne( {Title:title,Content:content});
     client.close();
 };
 
