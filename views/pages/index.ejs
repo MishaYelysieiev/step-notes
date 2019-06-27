@@ -34,7 +34,7 @@
                     <div class="d-flex align-items-center mb-2"> <input type="checkbox"><p class="ml-3 my-0"><%=list[`${key}`]%></p></div>
                 <%}}%>
                 <a href="/lists/edit" class="card-link btn edit-btn btn-success">Edit</a>
-                <button class="delete-list card-link btn btn-danger">Delete</button>
+                <button data-id="<%=list._id%>" class="delete-list card-link btn btn-danger">Delete</button>
             </div>
         </div>
         <% }); %>
