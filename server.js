@@ -40,6 +40,12 @@ app.delete('/notes/:id', async (req,res)=>{
     res.send("id");
 });
 
+app.delete('/lists/:id', async (req,res)=>{
+    console.log(req.params.id);
+    await db.deleteList(req.params.id);
+    res.send("id");
+});
+
 app.get('/',async (req,res)=>{
     const notes = await db.getNotes();
     const lists = await db.getLists();
@@ -47,6 +53,10 @@ app.get('/',async (req,res)=>{
         notes,
         lists
     });
+});
+
+app.post('/lists/:id',async (req,res)=>{
+    await db.updateCheckListItem(req.params.id,req.body.data);
 });
 
 app.listen(3000);
