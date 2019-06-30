@@ -21,7 +21,7 @@
             <div class="card-body">
                 <h5 class="card-title"><%= note.Title %></h5>
                 <p class="card-text"><%= note.Content %></p>
-                <a href="/notes/edit" class="card-link btn edit-btn btn-success">Edit</a>
+                <button data-id="<%= note._id %>" class="edit-note card-link btn edit-btn btn-success">Edit</button>
                 <button data-id="<%= note._id %>" class="delete-note card-link btn btn-danger">Delete</button>
             </div>
         </div>
@@ -57,7 +57,6 @@
 <script>
 
     $(".delete-note").on('click', function (e) {
-        console.log("works")
         e.preventDefault();
         let id = $(this).data("id");
         $.ajax({
@@ -74,7 +73,6 @@
     });
 
     $(".delete-list").on('click', function (e) {
-        console.log("works")
         e.preventDefault();
         let id = $(this).data("id");
         $.ajax({
@@ -83,6 +81,38 @@
             data: id,
             success: function (response) {
                 $(`#${id}`).remove();
+            },
+            error: function (response) {
+                alert(response);
+            }
+        });
+    });
+
+    $(".edit-note").on('click', function (e) {
+        e.preventDefault();
+        let id = $(this).data("id");
+        $.ajax({
+            type: "POST",
+            url: `/notes/${id}`,
+            data: id,
+            success: function (response) {
+                // window.location = "/notes/edit";
+            },
+            error: function (response) {
+                alert(response);
+            }
+        });
+    });
+
+    $(".edit-note").on('click', function (e) {
+        e.preventDefault();
+        let id = $(this).data("id");
+        $.ajax({
+            type: "POST",
+            url: `/notes/${id}`,
+            data: id,
+            success: function (response) {
+                // window.location = "/notes/edit";
             },
             error: function (response) {
                 alert(response);

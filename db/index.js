@@ -18,7 +18,33 @@ const getNotes  = async () => {
     return data;
 };
 
+const showNoteData = async id => {
+    const client = new MongoClient(uri, { useNewUrlParser: true });
+    await client.connect();
+    const data = await getNotes();
+    const title = await  data.find(item=>item['_id']==id)['Title'].toString();
+    const content = await  data.find(item=>item['_id']==id)['Content'].toString();
+    let info = {
+        Title: title,
+        Content: content
+    };
+    console.log(info);
+    client.close();
+    return info;
+};
+
 const deleteNote = async id => {
+    const client = new MongoClient(uri, { useNewUrlParser: true });
+    await client.connect();
+    const usersCollection = await client.db(db).collection("notes");
+    const data = await getNotes();
+    const title = await  data.find(item=>item['_id']==id)['Title'].toString();
+    const content = await  data.find(item=>item['_id']==id)['Content'].toString();
+    await usersCollection.deleteOne( {Title:title,Content:content});
+    client.close();
+};
+
+const updateNote = async id => {
     const client = new MongoClient(uri, { useNewUrlParser: true });
     await client.connect();
     const usersCollection = await client.db(db).collection("notes");
@@ -77,5 +103,7 @@ module.exports = {
     getNotes,
     deleteList,
     deleteNote,
+    showNoteData,
+    updateNote,
     updateCheckListItem
 };
