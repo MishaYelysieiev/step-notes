@@ -19,15 +19,11 @@
         <form action="/notes/edit" class="bg-warning py-2 px-4 rounded border border-secondary" id="edit-form">
             <div class="form-group">
                 <label for="note-title" class="control-label">Title</label>
-                <% if (data.Title) { %>
-                <input id="note-title" class="form-control bg-warning border-dark" type="text" name="title" value="<%=data.Title%>" required>
-                <% } %>
+                <input id="note-title" class="form-control bg-warning border-dark" type="text" name="title" value="<%= title %>" required>
             </div>
             <div class="form-group">
                 <label for="note-content" class="control-label">Content</label>
-                <% if (data.Content) { %>
-                <textarea id="note-content" class="form-control bg-warning border-dark" cols="25" rows="5" name="content" required><%=data.Content%></textarea>
-                <% } %>
+                <textarea id="note-content" class="form-control bg-warning border-dark" cols="25" rows="5" name="content" required><%= content %></textarea>
             </div>
             <div class="form-group">
                 <button id="delete-note" class="btn btn-success font-size-1.2" type="submit">Edit</button>
@@ -44,23 +40,23 @@
 <% include ../parts/scripts %>
 
 <script>
-    $("#edit-form").submit(function (e) {
-        e.preventDefault();
-        $.ajax({
-            type: "PUT",
-            url: $("#note-form").attr("action"),
-            data: {
-                Title: $("#note-title").val(),
-                Content: $("#note-content").val()
-            },
-            success: function (response) {
-                window.location = "/";
-            },
-            error: function (response) {
-                alert(response);
-            }
-        });
-    });
+    // $("#edit-form").submit(function (e) {
+    //     e.preventDefault();
+    //     $.ajax({
+    //         type: "PUT",
+    //         url: $("#note-form").attr("action"),
+    //         data: {
+    //             Title: $("#note-title").val(),
+    //             Content: $("#note-content").val()
+    //         },
+    //         success: function (response) {
+    //             window.location = "/";
+    //         },
+    //         error: function (response) {
+    //             alert(response);
+    //         }
+    //     });
+    // });
 
 </script>
 </body>

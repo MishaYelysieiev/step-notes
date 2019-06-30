@@ -92,27 +92,10 @@
         e.preventDefault();
         let id = $(this).data("id");
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: `/notes/${id}`,
-            data: id,
             success: function (response) {
-                // window.location = "/notes/edit";
-            },
-            error: function (response) {
-                alert(response);
-            }
-        });
-    });
-
-    $(".edit-note").on('click', function (e) {
-        e.preventDefault();
-        let id = $(this).data("id");
-        $.ajax({
-            type: "POST",
-            url: `/notes/${id}`,
-            data: id,
-            success: function (response) {
-                window.location = "/notes/edit";
+                window.location = `/notes/edit`;
             },
             error: function (response) {
                 alert(response);
@@ -123,7 +106,6 @@
     $(document).click(function (e) {
         if ($(e.target).hasClass('list-checkbox')) {
             let id = e.target.closest('.card').id;
-            console.log(id);
             const item = e.target.closest('.list-item-container');
             const dest = $(`#${id}`).find('.checked-list-container');
             if ($(e.target).prop('checked')) {

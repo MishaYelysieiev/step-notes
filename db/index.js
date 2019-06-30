@@ -19,29 +19,37 @@ const getNotes  = async () => {
 };
 
 const showNoteData = async id => {
-    const client = new MongoClient(uri, { useNewUrlParser: true });
-    await client.connect();
-    const data = await getNotes();
-    const title = await  data.find(item=>item['_id']==id)['Title'].toString();
-    const content = await  data.find(item=>item['_id']==id)['Content'].toString();
-    let info = {
-        Title: title,
-        Content: content
-    };
-    console.log(info);
-    client.close();
-    return info;
+    let info = {};
+        try {
+        const client = new MongoClient(uri, { useNewUrlParser: true });
+        await client.connect();
+        const data = await getNotes();
+        const title = await data.find(item=>item['_id']==id)['Title'].toString();
+        const content = await data.find(item=>item['_id']==id)['Content'].toString();
+        info = {
+            Title: title,
+            Content: content
+        };
+        client.close();
+    } catch (e) {
+        console.log(e)
+    }
+        return info;
 };
 
 const deleteNote = async id => {
-    const client = new MongoClient(uri, { useNewUrlParser: true });
-    await client.connect();
-    const usersCollection = await client.db(db).collection("notes");
-    const data = await getNotes();
-    const title = await  data.find(item=>item['_id']==id)['Title'].toString();
-    const content = await  data.find(item=>item['_id']==id)['Content'].toString();
-    await usersCollection.deleteOne( {Title:title,Content:content});
-    client.close();
+    try {
+        const client = new MongoClient(uri, {useNewUrlParser: true});
+        await client.connect();
+        const usersCollection = await client.db(db).collection("notes");
+        const data = await getNotes();
+        const title = await data.find(item => item['_id'] == id)['Title'].toString();
+        const content = await data.find(item => item['_id'] == id)['Content'].toString();
+        await usersCollection.deleteOne({Title: title, Content: content});
+        client.close();
+    }catch (e) {
+        alert(e)
+    }
 };
 
 const updateNote = async id => {
