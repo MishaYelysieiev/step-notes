@@ -42,7 +42,6 @@
     $("#note-form").submit(function (e) {
 
         e.preventDefault();
-        console.log("work");
         $.ajax({
             type: "POST",
             url: $("#note-form").attr("action"),
@@ -51,7 +50,7 @@
                 Content: $("#note-content").val()
             },
             success: function (response) {
-                    window.location = "/";
+                window.location = "/";
             },
             error: function (response) {
                 alert(response);
