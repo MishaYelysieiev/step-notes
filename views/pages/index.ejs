@@ -61,7 +61,7 @@
         let id = $(this).data("id");
         $.ajax({
             type: "DELETE",
-            url: `/notes/${id}`,
+            url: `/api/notes/${id}`,
             data: id,
             success: function (response) {
                 $(`#${id}`).remove();
@@ -77,7 +77,7 @@
         let id = $(this).data("id");
         $.ajax({
             type: "DELETE",
-            url: `/lists/${id}`,
+            url: `/api/lists/${id}`,
             data: id,
             success: function (response) {
                 $(`#${id}`).remove();
@@ -112,7 +112,7 @@
             url: `/notes/${id}`,
             data: id,
             success: function (response) {
-                // window.location = "/notes/edit";
+                window.location = "/notes/edit";
             },
             error: function (response) {
                 alert(response);

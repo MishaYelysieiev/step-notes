@@ -37,12 +37,12 @@ app.get('/lists/edit',(req,res)=>{
     res.render('pages/lists/edit');
 });
 
-app.delete('/notes/:id', async (req,res)=>{
+app.delete('/api/notes/:id', async (req,res)=>{
     await db.deleteNote(req.params.id);
     res.send("id");
 });
 
-app.delete('/lists/:id', async (req,res)=>{
+app.delete('/api/lists/:id', async (req,res)=>{
     await db.deleteList(req.params.id);
     res.send("id");
 });
