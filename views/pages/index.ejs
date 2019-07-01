@@ -95,7 +95,7 @@
             type: "GET",
             url: `/notes/${id}`,
             success: function (response) {
-                window.location = `/notes/edit`;
+                window.location = `/notes/${id}`;
             },
             error: function (response) {
                 alert(response);

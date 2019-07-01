@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
+const ObjectId = require('mongodb').ObjectId;
 const {uri,db}= require('./config');
 
 const addNote = async id => {
@@ -18,22 +19,35 @@ const getNotes  = async () => {
     return data;
 };
 
+const editNote = async (data, id) => {
+    try {
+        await client.connect();
+        const usersCollection = await client.db(db).collection("notes");
+        id = await ObjectId(id);
+        await usersCollection.updateOne({_id: id},
+            {$set: {Title: data.Title, Content: data.Content}});
+        console.log(`Document with ${id} is edited`);
+        client.close();
+    }catch (e) {
+    }
+};
+
 const showNoteData = async id => {
     let info = {};
         try {
-        const client = new MongoClient(uri, { useNewUrlParser: true });
-        await client.connect();
-        const data = await getNotes();
-        const title = await data.find(item=>item['_id']==id)['Title'].toString();
-        const content = await data.find(item=>item['_id']==id)['Content'].toString();
-        info = {
-            Title: title,
-            Content: content
-        };
-        client.close();
-    } catch (e) {
-        console.log(e)
-    }
+            const client = new MongoClient(uri, {useNewUrlParser: true});
+            await client.connect();
+            const data = await getNotes();
+            const title = await data.find(item => item['_id'] == id)['Title'].toString();
+            const content = await data.find(item => item['_id'] == id)['Content'].toString();
+            info = {
+                Title: title,
+                Content: content
+            };
+            client.close();
+        } catch (e) {
+            console.log(e)
+        }
         return info;
 };
 
@@ -50,17 +64,6 @@ const deleteNote = async id => {
     }catch (e) {
         alert(e)
     }
-};
-
-const updateNote = async id => {
-    const client = new MongoClient(uri, { useNewUrlParser: true });
-    await client.connect();
-    const usersCollection = await client.db(db).collection("notes");
-    const data = await getNotes();
-    const title = await  data.find(item=>item['_id']==id)['Title'].toString();
-    const content = await  data.find(item=>item['_id']==id)['Content'].toString();
-    await usersCollection.deleteOne( {Title:title,Content:content});
-    client.close();
 };
 
 const addList = async user => {
@@ -112,6 +115,6 @@ module.exports = {
     deleteList,
     deleteNote,
     showNoteData,
-    updateNote,
+    editNote,
     updateCheckListItem
 };
