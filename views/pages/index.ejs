@@ -17,35 +17,35 @@
     <main id="main"
           class="container-fluid d-flex flex-grow-1 align-items-start align-content-start p-4 justify-content-around justify-content-md-start row">
         <% notes.forEach(function(note) { %>
-        <div id="<%= note._id %>" class="card bg-warning text-white m-1" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title"><%= note.Title %></h5>
-                <p class="card-text"><%= note.Content %></p>
-                <button data-id="<%= note._id %>" class="edit-note card-link btn edit-btn btn-success">Edit</button>
-                <button data-id="<%= note._id %>" class="delete-note card-link btn btn-danger">Delete</button>
+            <div id="<%= note._id %>" class="card bg-warning text-white m-1" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title"><%= note.Title %></h5>
+                    <p class="card-text"><%= note.Content %></p>
+                    <button data-id="<%= note._id %>" class="edit-note card-link btn edit-btn btn-success">Edit</button>
+                    <button data-id="<%= note._id %>" class="delete-note card-link btn btn-danger">Delete</button>
+                </div>
             </div>
-        </div>
         <% }); %>
         <% lists.forEach(function(list) { %>
-        <div id="<%= list._id %>" class="card bg-info text-white m-1" style="width: 18rem;">
-            <div class="card-body">
-                <h5 class="card-title"><%= list.Title %></h5>
-                <% for(let key in list) { %>
-                <% if(key !== 'Title' && key !== '_id' && key[0]!=='+'){ %>
-                    <div class="list-item-container d-flex align-items-center mb-2" data-listName="<%=key%>"><input type="checkbox" class="list-checkbox">
-                    <p class="ml-3 my-0"><%= list[`${key}`] %></p></div>
-                <% }} %>
-                <div class="checked-list-container border-top border-dark mb-2">
+            <div id="<%= list._id %>" class="card bg-info text-white m-1" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title"><%= list.Title %></h5>
                     <% for(let key in list) { %>
-                        <% if(key !== 'Title' && key !== '_id' && key[0]==='+'){ %>
-                        <div class="list-item-container d-flex align-items-center mb-2" data-listName="<%=key%>"><input type="checkbox" class="list-checkbox" checked>
+                        <% if(key !== 'Title' && key !== '_id' && key[0]!=='+'){ %>
+                        <div class="list-item-container d-flex align-items-center mb-2" data-listName="<%=key%>"><input type="checkbox" class="list-checkbox">
                             <p class="ml-3 my-0"><%= list[`${key}`] %></p></div>
                     <% }} %>
+                    <div class="checked-list-container border-top border-dark mb-2">
+                        <% for(let key in list) { %>
+                            <% if(key !== 'Title' && key !== '_id' && key[0]==='+'){ %>
+                            <div class="list-item-container d-flex align-items-center mb-2" data-listName="<%=key%>"><input type="checkbox" class="list-checkbox" checked>
+                                <p class="ml-3 my-0"><%= list[`${key}`] %></p></div>
+                        <% }} %>
+                    </div>
+                    <a href="/lists/edit" class="card-link btn edit-btn btn-success">Edit</a>
+                    <button data-id="<%= list._id %>" class="delete-list card-link btn btn-danger">Delete</button>
                 </div>
-                <a href="/lists/edit" class="card-link btn edit-btn btn-success">Edit</a>
-                <button data-id="<%= list._id %>" class="delete-list card-link btn btn-danger">Delete</button>
             </div>
-        </div>
         <% }); %>
     </main>
 
@@ -55,7 +55,6 @@
 
 <% include ./parts/scripts %>
 <script>
-
     $(".delete-note").on('click', function (e) {
         e.preventDefault();
         let id = $(this).data("id");
@@ -67,11 +66,10 @@
                 $(`#${id}`).remove();
             },
             error: function (response) {
-                alert(response);
+                console.log(response);
             }
         });
     });
-
     $(".delete-list").on('click', function (e) {
         e.preventDefault();
         let id = $(this).data("id");
@@ -83,11 +81,10 @@
                 $(`#${id}`).remove();
             },
             error: function (response) {
-                alert(response);
+                console.log(response);
             }
         });
     });
-
     $(".edit-note").on('click', function (e) {
         e.preventDefault();
         let id = $(this).data("id");
@@ -98,11 +95,10 @@
                 window.location = `/notes/${id}`;
             },
             error: function (response) {
-                alert(response);
+                console.log(response);
             }
         });
     });
-
     $(document).click(function (e) {
         if ($(e.target).hasClass('list-checkbox')) {
             let id = e.target.closest('.card').id;
@@ -110,38 +106,36 @@
             const dest = $(`#${id}`).find('.checked-list-container');
             if ($(e.target).prop('checked')) {
                 dest.append(item);
-                    $.ajax({
-                        type: "POST",
-                        url: `/lists/${id}`,
-                        data: {data: $(item).attr('data-listname')},
-                        success: function (response) {
-                            console.log('succes+')
-                        },
-                        error: function (response) {
-                            alert(response);
-                        }
-                    });
-                $(item).attr('data-listname',`+${ $(item).attr('data-listname')}`);
-            } else {
-                dest.before(item);
                 $.ajax({
                     type: "POST",
-                    url: `/lists/${id}`,
+                    url: `/lists/update/${id}`,
                     data: {data: $(item).attr('data-listname')},
                     success: function (response) {
                         console.log('succes+')
                     },
                     error: function (response) {
-                        alert(response);
+                        console.log(response);
+                    }
+                });
+                $(item).attr('data-listname',`+${ $(item).attr('data-listname')}`);
+            } else {
+                dest.before(item);
+                $.ajax({
+                    type: "POST",
+                    url: `/lists/update/${id}`,
+                    data: {data: $(item).attr('data-listname')},
+                    success: function (response) {
+                        console.log('succes+')
+                    },
+                    error: function (response) {
+                        console.log(response);
                     }
                 });
                 let lisname = $(item).attr('data-listname').split('+')[1];
                 $(item).attr('data-listname',`${lisname}`);
             }
         }
-
     })
-
 </script>
 </body>
 </html>
