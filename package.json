@@ -13,6 +13,7 @@
     "jquery": "^3.4.1",
     "mongodb": "^3.2.7",
     "nodemon": "^1.19.1",
+    "objectid": "^3.2.1",
     "path": "^0.12.7"
   },
   "repository": {
