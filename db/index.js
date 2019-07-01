@@ -21,6 +21,7 @@ const getNotes  = async () => {
 
 const editNote = async (data, id) => {
     try {
+        const client = new MongoClient(uri, { useNewUrlParser: true });
         await client.connect();
         const usersCollection = await client.db(db).collection("notes");
         id = await ObjectId(id);
