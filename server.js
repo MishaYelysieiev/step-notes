@@ -58,7 +58,12 @@ app.post('/notes/create',(req,res)=>{
     res.json(req.body.request == "true")
 });
 
-app.post('/lists/:id', async (req,res)=>{
+app.post('/lists/create',(req,res)=>{
+    db.addList(req.body);
+    res.json(req.body.request == "true")
+});
+
+app.post('/lists/update/:id', async (req,res)=>{
     await db.updateCheckListItem(req.params.id,req.body.data);
 });
 

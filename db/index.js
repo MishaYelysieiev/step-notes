@@ -35,21 +35,21 @@ const editNote = async (data, id) => {
 
 const showNoteData = async id => {
     let info = {};
-        try {
-            const client = new MongoClient(uri, {useNewUrlParser: true});
-            await client.connect();
-            const data = await getNotes();
-            const title = await data.find(item => item['_id'] == id)['Title'].toString();
-            const content = await data.find(item => item['_id'] == id)['Content'].toString();
-            info = {
-                Title: title,
-                Content: content
-            };
-            client.close();
-        } catch (e) {
-            console.log(e)
-        }
-        return info;
+    try {
+        const client = new MongoClient(uri, {useNewUrlParser: true});
+        await client.connect();
+        const data = await getNotes();
+        const title = await data.find(item => item['_id'] == id)['Title'].toString();
+        const content = await data.find(item => item['_id'] == id)['Content'].toString();
+        info = {
+            Title: title,
+            Content: content
+        };
+        client.close();
+    } catch (e) {
+        console.log(e)
+    }
+    return info;
 };
 
 const deleteNote = async id => {
