@@ -33,6 +33,19 @@ const editNote = async (data, id) => {
     }
 };
 
+const editList = async (data, id) => {
+    try {
+        const client = new MongoClient(uri, { useNewUrlParser: true });
+        await client.connect();
+        const usersCollection = await client.db(db).collection("lists");
+        id = await ObjectId(id);
+        await usersCollection.replaceOne({_id: id},data);
+        console.log(`Todo list with ${id} is edited`);
+        client.close();
+    }catch (e) {
+    }
+};
+
 const showNoteData = async id => {
     let info = {};
     try {
@@ -46,6 +59,26 @@ const showNoteData = async id => {
             Content: content
         };
         client.close();
+    } catch (e) {
+        console.log(e)
+    }
+    return info;
+};
+
+const showListData = async id => {
+    let info = {};
+    try {
+        const client = new MongoClient(uri, {useNewUrlParser: true});
+        await client.connect();
+        const data = await getLists();
+        const title = await data.find(item => item['_id'] == id)['Title'].toString();
+        const tasks = await data.find(item => item['_id'] == id);
+        info = {
+            Title: title,
+            tasks
+        };
+        client.close();
+
     } catch (e) {
         console.log(e)
     }
@@ -83,12 +116,13 @@ const getLists  = async () => {
     client.close();
     return data;
 };
+
 const deleteList = async id => {
     const client = new MongoClient(uri, { useNewUrlParser: true });
     await client.connect();
     const usersCollection = await client.db(db).collection("lists");
     const data = await getLists();
-    const list = await  data.find(item=>item['_id']==id);
+    const list = await data.find(item=>item['_id']==id);
     await usersCollection.deleteOne(list);
     console.log('success');
     client.close();
@@ -116,6 +150,9 @@ module.exports = {
     deleteList,
     deleteNote,
     showNoteData,
+    showListData,
     editNote,
+    editList,
     updateCheckListItem
 };
+
