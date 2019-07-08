@@ -42,7 +42,7 @@
                                 <p class="ml-3 my-0"><%= list[`${key}`] %></p></div>
                         <% }} %>
                     </div>
-                    <a href="/lists/edit" class="card-link btn edit-btn btn-success">Edit</a>
+                    <button data-id="<%= list._id %>" class="edit-list card-link btn edit-btn btn-success">Edit</button>
                     <button data-id="<%= list._id %>" class="delete-list card-link btn btn-danger">Delete</button>
                 </div>
             </div>
@@ -93,6 +93,20 @@
             url: `/notes/${id}`,
             success: function (response) {
                 window.location = `/notes/${id}`;
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    });
+    $(".edit-list").on('click', function (e) {
+        e.preventDefault();
+        let id = $(this).data("id");
+        $.ajax({
+            type: "GET",
+            url: `/lists/${id}`,
+            success: function (response) {
+                window.location = `/lists/${id}`;
             },
             error: function (response) {
                 console.log(response);

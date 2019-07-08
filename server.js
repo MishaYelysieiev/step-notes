@@ -39,8 +39,17 @@ app.get('/notes/:id', async (req,res)=>{
     }
 });
 
-app.get('/lists/edit',(req,res)=>{
-    res.render('pages/lists/edit');
+app.get('/lists/:id', async (req,res)=>{
+    try {
+        const data = await db.showListData(req.params.id);
+        res.render('pages/lists/edit', {
+            id: req.params.id,
+            title: data.Title,
+            tasks: data.tasks
+        });
+    } catch (e) {
+        console.log(e);
+    }
 });
 
 app.delete('/api/notes/:id', async (req,res)=>{
@@ -69,6 +78,10 @@ app.post('/lists/update/:id', async (req,res)=>{
 
 app.put('/api/notes/:id', async (req,res)=>{
     await db.editNote(req.body, req.params.id);
+    res.json(req.body.request == "true")
+});
+app.put('/api/lists/:id', async (req,res)=>{
+    await db.editList(req.body, req.params.id);
     res.json(req.body.request == "true")
 });
 

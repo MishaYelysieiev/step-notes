@@ -5,7 +5,7 @@
 
 </head>
 <body>
-<div class="wrapper bg-light min-vh-100">
+<div class="wrapper bg-light min-vh-100 d-flex flex-column justify-content-between">
     <header class="container-fluid bg-primary d-flex py-2 justify-content-between align-items-center">
         <a href="#" class="text-white btn"><h4 class="my-0">Note<span class="text-warning">App</span></h4></a>
         <div class="d-flex">
@@ -17,14 +17,15 @@
     <main id="main" class="container-fluid d-flex p-4 d-flex flex-direction-column justify-content-center align-items-center">
 <!--        <h3 class="text-danger text-center mt-10">Место для формы создания заметки <span class="text-secondary">(и вашей рекламы)</span></h3>-->
 
-        <form action="/notes/create" class=" p-5" id="note-form">
+        <form action="/notes/create" class=" p-1" id="note-form">
+            <h1 class="display-4 text-center mb-2">Add Note</h1>
             <div class="form-group">
                 <label for="note-title" class="control-label"></label>
-                <input id="note-title" class="form-control" type="text" name="title" required>
+                <input id="note-title" class="form-control" type="text" name="title" placeholder="Note title" required>
             </div>
             <div class="form-group">
                 <label for="note-content" class="control-label"></label>
-                <textarea id="note-content" class="form-control" cols="30" rows="10" name="content" required></textarea>
+                <textarea id="note-content" class="form-control" cols="30" rows="10" name="content" placeholder="Note content" required></textarea>
             </div>
             <div class="form-group">
                 <button id="create-note" class="btn btn-warning font-size-1.2" type="submit">Create</button>
