@@ -1,7 +1,11 @@
 {
   "name": "note-app",
   "version": "1.0.0",
-  "description": "Для начала работы необходимо установить модули, все* зависимости уже прописаны в package.json поэтому можно просто ввести команду <strong>npm install</strong> и все установиться.",
+  "engines": {
+    "node": "11.13.0",
+    "npm": "6.7.0"
+  },
+  "description": "simple node.js note application",
   "main": "index.js",
   "scripts": {
     "start": "node server"
