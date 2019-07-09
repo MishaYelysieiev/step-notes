@@ -85,7 +85,11 @@ app.put('/api/lists/:id', async (req,res)=>{
     res.json(req.body.request == "true")
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port);
+app.set('port', (process.env.PORT || 3000));
+
+
+app.listen(app.get('port'), function(){
+    console.log('Port is' + app.get('port'));
+});
 
 console.log('everything is OK');
